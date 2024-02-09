@@ -46,5 +46,5 @@ jobs:
         run: |
           earthly --ci --push +build \
             --TARGET_DOCKER_REGISTRY=ghcr.io/librepod \
-            --ARGOCD_TAG=v2.9.6 \
+            --ARGOCD_TAG=${{ github.ref_name }} \
             --ARGOCD_BASE_IMAGE=quay.io/argoproj/argocd
