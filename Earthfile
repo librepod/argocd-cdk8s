@@ -14,12 +14,9 @@ build:
   FROM ${ARGOCD_BASE_IMAGE}:${ARGOCD_TAG}
   LABEL org.opencontainers.image.source="https://github.com/librepod/${TARGET_DOCKER_REGISTRY}"
 
-  # Switch to root for the ability to perform install
+  # Switch to root to install stuff
   USER root
 
-  RUN apt-get update
-
-  # Setup non-root user
   WORKDIR /home/argocd
 
   RUN apt-get update && apt-get --no-install-recommends --yes install \
@@ -31,7 +28,6 @@ build:
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
   COPY +bun/bun /usr/local/bin/bun
-  RUN bun --version
 
   # Switch back to non-root user
   USER 999
