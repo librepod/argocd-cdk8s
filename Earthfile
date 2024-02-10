@@ -2,6 +2,11 @@ VERSION 0.7
 
 ARG --global TARGET_DOCKER_REGISTRY
 
+bun:
+  FROM oven/bun:1.0-alpine
+  RUN bun --version
+  SAVE ARTIFACT /usr/local/bin/bun bun
+
 build:
   ARG ARGOCD_TAG=v2.10.0
   ARG ARGOCD_BASE_IMAGE=quay.io/argoproj/argocd
@@ -19,14 +24,14 @@ build:
 
   RUN apt-get update && apt-get --no-install-recommends --yes install \
       jq curl \
-    && curl -L -o yq_linux_amd64.tar.gz https://github.com/mikefarah/yq/releases/download/v4.2.0/yq_linux_amd64.tar.gz \
-    && tar xzf ./yq_linux_amd64.tar.gz \
-    && chmod +x ./yq_linux_amd64 && mv ./yq_linux_amd64 /usr/local/bin/yq \
-    && curl -fsSL https://deb.nodesource.com/setup_21.x | bash - \
+    && curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
     && apt-get install -y nodejs \
-    && npm install -g pnpm cdk8s-cli \
+    && npm install -g cdk8s-cli \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+  COPY +bun/bun /usr/local/bin/bun
+  RUN bun --version
 
   # Switch back to non-root user
   USER 999
