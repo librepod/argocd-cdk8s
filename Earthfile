@@ -25,7 +25,11 @@ build:
     && apt-get install -y nodejs \
     && npm install -g cdk8s-cli \
     && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
+    && curl -L -o helm-v3.14.2-linux-amd64.tar.gz https://get.helm.sh/helm-v3.14.2-linux-amd64.tar.gz \
+    && tar -zxvf helm-v3.14.2-linux-amd64.tar.gz \
+    && mv linux-amd64/helm /usr/local/bin/helm \
+    && helm version
 
   COPY +bun/bun /usr/local/bin/bun
 
