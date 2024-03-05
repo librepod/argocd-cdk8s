@@ -8,7 +8,7 @@ bun:
   SAVE ARTIFACT /usr/local/bin/bun bun
 
 build:
-  ARG ARGOCD_TAG=v2.10.0
+  ARG ARGOCD_TAG=v2.10.2
   ARG ARGOCD_BASE_IMAGE=quay.io/argoproj/argocd
 
   FROM ${ARGOCD_BASE_IMAGE}:${ARGOCD_TAG}
